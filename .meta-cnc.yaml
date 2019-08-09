@@ -1,0 +1,83 @@
+# skillet preamble information used by panhandler
+# ---------------------------------------------------------------------
+# unique snippet name
+name: LogForwardProfile4GPCS
+# label used for menu selection
+label: Log Forwarding Profile for Prisma-Access
+description: Prisma - setting the log forwarding parameters
+
+# type of device configuration
+# common types are panorama, panos, and template
+# https://github.com/PaloAltoNetworks/panhandler/blob/develop/docs/metadata_configuration.rst
+type: panorama
+# preload static or default-based templates
+extends:
+
+# grouping of like snippets for dynamic menu creation in panhandler
+labels:
+  collection:
+    - Prisma-Access
+
+# ---------------------------------------------------------------------
+# end of preamble section
+
+# variables section
+# ---------------------------------------------------------------------
+# variables used in the configuration templates
+# type_hint defines the form field used by panhandler
+# type_hints can be text, ip_address, or dropdown
+
+variables:
+  - name: mobile_device_group
+    description: Name of the Mobile User device group
+    default: Mobile_User_Device_Group
+    type_hint: text
+  - name: branch_device_group
+    description: Name of the remote network device group
+    default: Remote_Network_Device_Group
+    type_hint: text
+#
+# This variable is used in the apps.xml code - comment out if not using this .xml
+# - name: streaming_app
+#   description: name of the streaming app
+#   default: netflix-streaming
+#   type_hint: dropdown
+#   dd_list:
+#     - key: netflix-streaming
+#       value: netflix-streaming
+#     - key: youtube-streaming
+#       value: youtube-streaming
+#     - key: sling
+#       value: sling
+#     - key: vimeo-base
+#       value: vimeo-base
+#     - key: xfinity-tv
+#       value: xfinity-tv
+#     - key: youku-base
+#       value: youku-base
+#     - key: hulu-base
+#       value: hulu-base
+#     - key: dailymotion
+#       value: dailymotion
+#
+# ---------------------------------------------------------------------
+# end of variables section
+
+# snippets section
+# ---------------------------------------------------------------------
+# snippets used for api configuration including xpath and element as file name
+# files will load in the order listed
+#
+snippets:
+  - name: Forwarding_Profile1
+    xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ mobile_device_group }}']/log-settings/profiles
+    file: forwardingProfile1.xml
+  - name: Forwarding_Profile2
+    xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ branch_device_group }}']/log-settings/profiles
+    file: forwardingProfile2.xml
+#
+#  - name: decrypt
+#    xpath: /config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name='vsys1']/setting/ssl-decrypt
+#    file: decrypt.xml
+# ---------------------------------------------------------------------
+# end of snippets section
